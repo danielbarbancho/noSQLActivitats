@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type"content="charset=UTF-8" />
+<title>Autenticación con Firebase en 5 minutos</title>
+<span class="hljs-name"></span>
+<span class="hljs-name"></span>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet type="text/css href="font.css"> </link>
+</head>
+<body class="bg-dark">
+  <br></br>
+    <br></br>
+      <br></br>
+        <br></br>
+          <br></br>
+ 
+  <div id="loginFormUI" class="text-center text-light border border-light container w-25 pb-5 pt-5 bg-transparent">
+  <h2 class="text-center text-light">Com tu vulguis</h2><span class="hljs-name"></span>
+
+  
+
+
+    <p>Por favor inicia sesión para acceder a tu información</p><span class="hljs-name"></span>
+                  <br></br>
+  
+    <form name="loginForm">
+      <input type="email"name="email"placeholder="Correo Electronico"required/>
+      <input type="password"name="password"placeholder="Contraseña"required/>
+                  <br></br>
+      <input type="radio"name="isLoginOrSignup"id="radioIsLogin"value="isLogin"checked/>
+      <label for="radioIsLogin" class="text-light">Entrar a mi cuenta</label><span class="hljs-name"></span>
+
+      <input type="radio"name="isLoginOrSignup"id="radioIsSignup"value="isSignup"/>
+      <label for="radioIsSignup" class="text-light">Crear cuenta</label><span class="hljs-name"></span>
+      <span class="hljs-name"></span>
+                  <br></br>
+      <button id="btnLogin" class="btn btn-outline-light">Acceder</button>
+    <span class="hljs-name"></span>
+  </form>
+  <span class="hljs-name"></span>
+</div>
+
+  <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
+
+  <script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyCA_0gzwRX_43i8k4oiZy9IWXZq346pzFA",
+    authDomain: "comtuvulguis-e2360.firebaseapp.com",
+    projectId: "comtuvulguis-e2360",
+    storageBucket: "comtuvulguis-e2360.appspot.com",
+    messagingSenderId: "185894164797",
+    appId: "1:185894164797:web:9e952fa0986ea92d7a0d54"
+  };
+  firebase.initializeApp(firebaseConfig);
+    const form = document.forms['loginForm'];
+form.addEventListener('submit', function handleFormSubmit(event) {
+  event.preventDefault();
+
+  const email = form['email'].value;
+  const password = form['password'].value;
+  const isLoginOrSignup = form['isLoginOrSignup'].value;
+
+  if (isLoginOrSignup === 'isLogin') {
+    return loginUser(email, password);
+  }
+
+  return createUser(email, password);
+});
+
+function createUser(email, password) {
+  console.log('Creando el usuario con email ' + email);
+
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then(function (user) {
+    console.log('¡Creamos al usuario!');
+    alert("¡Usuario creado!");
+  })
+  .catch(function (error) {
+    console.error(error)
+    alert("Error. No se ha podido crear el usuario");
+  });
+}
+
+function loginUser(email, password) {
+  console.log('Loging user ' + email);
+
+  firebase.auth().signInWithEmailAndPassword(email, password)
+  .then(function (user) {
+    console.log('Credenciales correctas, ¡bienvenido!');
+    alert("¡Bienvenido!");
+  })
+  .catch(function (error) {
+    console.log(error);
+    alert("Usuario erroneo. Vuelve a poner las credenciales");
+  });
+}
+
+function signoutUser() {
+  firebase.auth().signOut();
+}
+  </script>
+</body>
+</html>
